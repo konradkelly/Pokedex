@@ -44,17 +44,17 @@ function Item() {
         // .then(data => setPokemon(data))
         async function fetchPokemon() {
             try {
-                const response = await fetch('https://pokeapi.co/api/v2/pokemon-species/aegislash')
+                const response = await fetch('https://pokeapi.co/api/v2/pokemon/ditto')
                 const data = await response.json();
                 setPokemon(data);
-                console.log(data.base_happiness)
+                console.log(data.abilities)
 
             } catch (err) {
                 console.log(`${err.message} An error occured while fetching pokemon data`)
             }
         }
         fetchPokemon();
-        
+
     }, []);
 
     return (
