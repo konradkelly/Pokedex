@@ -1,12 +1,39 @@
 import { useState, useEffect } from 'react';
+import { useFormStatus } from 'react-dom';
 
 function Item() {
+
     const [pokemon, setPokemon] = useState(null);
 
+    const currentStatus = {
+        loading: 'loading',
+        success: 'success',
+        error: 'error',
+    };
+
+    const [status, setStatus] = useState(currentStatus.loading);
+    const [error, setError] = useState('');
+    
+
     useEffect(() => {
-        fetch('https://pokeapi.co/api/v2/pokemon-species/aegislash')
-            .then((res) => res.json())
-            .then((data) => setPokemon(data));
+        async function fetchPokemon() {
+            try {
+                setStatus(status.loading);
+                const response = await fetch('https://pokeapi.co/api/v2/pokemon-species/aegislash');
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch pokemon data: ${response.status}`);
+                }
+                const data = await response.json();
+                setPokemon(data);
+                console.log(data.aegislash.abilities);
+                setStatus(status.success);
+            } catch (err) {
+                setError(`${err.message} An error occured while fetching pokemon data}`)
+                setStatus(status.error);
+            }
+        }
+
+        fetchPokemon();
     }, []);
 
     return (
