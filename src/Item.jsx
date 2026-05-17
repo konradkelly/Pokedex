@@ -45,7 +45,14 @@ function Item() {
         <main>
             <div className='Item-container'>
                 <button onClick={() => setPokemonId((id) => id + 1)}>Next Pokemon</button>
-                
+                <label>Pokemon ID
+                    <input
+                        type="number"
+                        min="1"
+                        onChange={(event) => setPokemonId(Math.max(1, Number(event.target.value)))}
+                        value={pokemonId}
+                    />
+                </label>
                 <div className='Item-image'>
 
                 {status === 'success' && pokemon && (
