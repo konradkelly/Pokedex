@@ -1,0 +1,23 @@
+/* Align abilities row inline with label and values */
+.Item-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.Item-row > span:first-child {
+  display: inline-block;
+  min-width: 70px;
+  font-weight: bold;
+  margin-right: 0.5em;
+}
+.Item-abilities-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+}
+.Item-ability {
+  /* Optional: style individual abilities */
+}
+ul {
+  list-style-type: none;
+}
