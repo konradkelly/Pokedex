@@ -42,17 +42,20 @@ function Item() {
     }, [pokemonId]);
 
     return (
-        <main>
-            <div className='Item-container'>
-                <button onClick={() => setPokemonId((id) => id + 1)}>Next Pokemon</button>
-                <label>Pokemon ID
+        <section className="Item-container">
+            <div className="Item-controls">
+                <label className="Item-input-label">Pokemon ID
                     <input
+                        className="Item-input"
                         type="number"
                         min="1"
                         onChange={(event) => setPokemonId(Math.max(1, Number(event.target.value)))}
                         value={pokemonId}
                     />
                 </label>
+            </div>
+
+            <article className="Item-card">
                 <div className='Item-image'>
 
                 {status === 'success' && pokemon && (
@@ -64,17 +67,17 @@ function Item() {
                 </div> 
                 
                 <div className='Item-details'>
-                    {status == 'loading' && <p>Loading...</p>}
-                    {status == 'error' && <p>Error: {error}</p>}
-                    {status == 'success' && pokemon && (
+                    {status === 'loading' && <p className="Item-state">Loading...</p>}
+                    {status === 'error' && <p className="Item-state Item-state-error">Error: {error}</p>}
+                    {status === 'success' && pokemon && (
                     <>
-                        <p>#{pokemon.id} {pokemon.name}</p>        
-                        <div className="Item-row"><span>HP:</span> <span>{getBaseStat(pokemon, 'hp')}</span></div>
-                        <div className="Item-row"><span>Attack:</span> <span>{getBaseStat(pokemon, 'attack')}</span></div>
-                        <div className="Item-row"><span>Defense:</span> <span>{getBaseStat(pokemon, 'defense')}</span></div>
+                        <p className="Item-title">#{pokemon.id} {pokemon.name}</p>
+                        <div className="Item-row"><span className="Item-row-label">HP:</span> <span className="Item-row-value">{getBaseStat(pokemon, 'hp')}</span></div>
+                        <div className="Item-row"><span className="Item-row-label">Attack:</span> <span className="Item-row-value">{getBaseStat(pokemon, 'attack')}</span></div>
+                        <div className="Item-row"><span className="Item-row-label">Defense:</span> <span className="Item-row-value">{getBaseStat(pokemon, 'defense')}</span></div>
                         <div className="Item-row">
-                            <span>Abilities:</span>
-                            <span className="Item-abilities-list">
+                            <span className="Item-row-label">Abilities:</span>
+                            <span className="Item-row-value Item-abilities-list">
                                 {pokemon.abilities.map((a, key) => (
                                     <span key={key} className="Item-ability">{a.ability.name}{key < pokemon.abilities.length - 1 ? ', ' : ''}</span>
                                 ))}
@@ -83,8 +86,9 @@ function Item() {
                     </>
                 )}
             </div>
-        </div>
-    </main>
+            </article>
+            <button className="Item-button" onClick={() => setPokemonId((id) => id + 1)}>Next Pokemon</button>
+        </section>
     );
 }
 
