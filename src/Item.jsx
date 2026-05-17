@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useFormStatus } from 'react-dom';
+
+function getBaseStat(pokemon, statName) {
+    return pokemon?.stats?.find((s) => s.stat.name === statName)?.base_stat ?? 'N/A';
+}
 
 function Item() {
     const [pokemonId, setPokemonId] = useState(1);
@@ -41,6 +44,8 @@ function Item() {
     return (
         <main>
             <div className='Item-container'>
+                <button onClick={() => setPokemonId((id) => id + 1)}>Next Pokemon</button>
+                
                 <div className='Item-image'>
 
                 {status === 'success' && pokemon && (
@@ -52,18 +57,22 @@ function Item() {
                 </div> 
                 
                 <div className='Item-details'>
-                    <button onClick={() => setPokemonId((id) => id + 1)}>Next Pokemon</button>
-
                     {status == 'loading' && <p>Loading...</p>}
                     {status == 'error' && <p>Error: {error}</p>}
                     {status == 'success' && pokemon && (
                     <>
                         <p>#{pokemon.id} {pokemon.name}</p>        
-                        <ul>
-                            {pokemon.abilities.map((a, key) => (
-                                <li key={key}>{a.ability.name}</li>
-                            ))}
-                        </ul> 
+                        <div className="Item-row"><span>HP:</span> <span>{getBaseStat(pokemon, 'hp')}</span></div>
+                        <div className="Item-row"><span>Attack:</span> <span>{getBaseStat(pokemon, 'attack')}</span></div>
+                        <div className="Item-row"><span>Defense:</span> <span>{getBaseStat(pokemon, 'defense')}</span></div>
+                        <div className="Item-row">
+                            <span>Abilities:</span>
+                            <span className="Item-abilities-list">
+                                {pokemon.abilities.map((a, key) => (
+                                    <span key={key} className="Item-ability">{a.ability.name}{key < pokemon.abilities.length - 1 ? ', ' : ''}</span>
+                                ))}
+                            </span>
+                        </div>
                     </>
                 )}
             </div>
